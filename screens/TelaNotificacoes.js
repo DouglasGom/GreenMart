@@ -4,10 +4,10 @@ import { activateKeepAwakeAsync, deactivateKeepAwakeAsync } from 'expo-keep-awak
 
 const App = () => {
   useEffect(() => {
-    // Ativar KeepAwake
+  
     activateKeepAwakeAsync();
 
-    // Desativar KeepAwake quando o componente for desmontado
+    
     return () => {
       deactivateKeepAwakeAsync();
     };
