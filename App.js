@@ -1,20 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './screens/Home';
 import DoeRoupas from './screens/DoeRoupas';
 import TelaNotificacoes from './screens/TelaNotificacoes';
-import SplashScreen from './screens/SplashScreen'; 
+import SplashScreen from './screens/SplashScreen';
 import { Ionicons } from '@expo/vector-icons';
+import * as Font from 'expo-font';
+import { View, ActivityIndicator } from 'react-native';
 
 const BottomTab = createBottomTabNavigator();
 
 const App = () => {
   const [isSplashVisible, setIsSplashVisible] = useState(true);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
   const handleSplashFinish = () => {
     setIsSplashVisible(false);
   };
+
+  useEffect(() => {
+    const loadFonts = async () => {
+      await Font.loadAsync({
+        'Poppins-Regular': require('./assets/fonts/Poppins/Poppins-Regular.ttf'),
+        'Poppins-Bold': require('./assets/fonts/Poppins/Poppins-Bold.ttf'),
+      });
+      setFontsLoaded(true);
+    };
+    
+
+    loadFonts();
+  }, []);
+
+  if (!fontsLoaded) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="green" />
+      </View>
+    );
+  }
 
   return (
     <NavigationContainer>
