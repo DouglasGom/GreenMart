@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } fro
 import { Checkbox } from 'expo-checkbox';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
-import { auth, firestore } from '../firebaseConfig'; // Importe a configuração do Firebase
+import { auth, firestore } from '../firebaseConfig'; 
 import logo from '../assets/Logo-GreenMart.png';
 
 export default function RegisterScreen({ navigation }) {
@@ -18,7 +18,7 @@ export default function RegisterScreen({ navigation }) {
     const [isCheckedTerms, setCheckedTerms] = useState(false);
 
     const handleRegister = async () => {
-        // Validações básicas
+        
         if (!nome || !email || !senha || !confirmarSenha || !cpf || !telefone || !endereco) {
             Alert.alert('Erro', 'Por favor, preencha todos os campos.');
             return;
@@ -35,25 +35,23 @@ export default function RegisterScreen({ navigation }) {
         }
 
         try {
-            // Criando o usuário no Firebase Authentication
+           
             const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
             const user = userCredential.user;
 
-            // Dados adicionais do usuário
+           
             const userData = {
                 nome_usuario: nome,
                 cpf: cpf,
                 telefone: telefone,
                 endereco_fisico: endereco,
                 email: email,
-                // Você pode adicionar mais campos conforme necessário
             };
 
-            // Salvando os dados do usuário no Firestore
             await setDoc(doc(firestore, 'usuarios', user.uid), userData);
 
             Alert.alert('Sucesso', 'Usuário cadastrado com sucesso!');
-            navigation.navigate('Login'); // Redireciona para a tela de login após cadastro bem-sucedido
+            navigation.navigate('Login'); 
 
         } catch (error) {
             console.error('Erro ao cadastrar:', error);

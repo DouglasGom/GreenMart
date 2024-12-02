@@ -25,10 +25,8 @@ export default function LoginScreen({ navigation }) {
             if (response.status === 200) {
                 alert('Login bem-sucedido!');
 
-                // Salve os dados do usuário no AsyncStorage
                 await AsyncStorage.setItem('userData', JSON.stringify(result.user));
 
-                // Redefine a navegação, forçando a recarga do app com os dados atualizados
                 navigation.reset({
                     index: 0,
                     routes: [{ name: 'Main' }],

@@ -107,7 +107,7 @@ export default function VideoDetailScreen({ route, navigation }) {
   const hideControlsAfterTimeout = () => {
     setTimeout(() => {
       hideControls();
-    }, 3000); // Esconde controles após 3 segundos
+    }, 3000); 
   };
 
   return (
@@ -151,9 +151,9 @@ export default function VideoDetailScreen({ route, navigation }) {
           maximumValue={playbackDuration}
           value={playbackPosition}
           onValueChange={handleSliderChange}
-          minimumTrackTintColor="#1DB954"
+          minimumTrackTintColor="#0CD028"
           maximumTrackTintColor="#ffffff"
-          thumbTintColor="#1DB954"
+          thumbTintColor="#0CD028"
         />
       </TouchableOpacity>
 
@@ -171,7 +171,11 @@ export default function VideoDetailScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
+  container: { 
+    flex: 1, 
+    backgroundColor: '#fff' 
+  },
+
   header: {
     marginTop: 20,
     flexDirection: 'row',
@@ -179,11 +183,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 15,
   },
+
   logo: {
     width: 70,
     height: 70,
     resizeMode: 'contain',
   },
+
   searchInput: {
     flex: 1,
     height: 40,
@@ -191,23 +197,71 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 10,
     marginHorizontal: 15,
-    fontFamily: 'Poppins-Regular'
-
+    fontFamily: 'Poppins-Regular',
   },
-  videoContainer: { position: 'relative', width: '100%', height: 220, backgroundColor: 'black' },
-  video: { width: '100%', height: '100%' },
+
+  videoContainer: { 
+    position: 'relative', 
+    width: '100%', 
+    height: 220, 
+    backgroundColor: 'black' 
+  },
+
+  video: { 
+    width: '100%', 
+    height: '100%' 
+  },
+
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
-  controlsOverlay: { position: 'absolute', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' },
-  controlButton: { marginHorizontal: 20 },
-  progressSlider: { position: 'absolute', bottom: 10, width: '90%', alignSelf: 'center' },
-  infoContainer: { padding: 20 },
-  titleContainer: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  title: { fontSize: 20,     fontFamily: 'Poppins-Bold'
-    , flex: 1, marginRight: 10 },
-  description: { fontSize: 16, color: '#666', marginTop: 10,     fontFamily: 'Poppins-Regular'
+
+  controlsOverlay: { 
+    position: 'absolute', 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    width: '100%', 
+    height: '100%' 
   },
-  shareButton: { padding: 5 },
+
+  controlButton: { 
+    marginHorizontal: 20 
+  },
+
+  progressSlider: { 
+    position: 'absolute', 
+    bottom: 10, 
+    width: '90%', 
+    alignSelf: 'center' 
+  },
+
+  infoContainer: { 
+    padding: 20 
+  },
+
+  titleContainer: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    alignItems: 'center' 
+  },
+
+  title: { 
+    fontSize: 20, 
+    fontFamily: 'Poppins-Bold', 
+    flex: 1, 
+    marginRight: 10 
+  },
+
+  description: { 
+    fontSize: 16, 
+    color: '#666', 
+    marginTop: 10, 
+    fontFamily: 'Poppins-Regular' 
+  },
+
+  shareButton: { 
+    padding: 5 
+  },
 });

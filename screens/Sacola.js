@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useCart } from './CartContext'; // Usando o contexto para gerenciar o carrinho
+import { useCart } from './CartContext'; 
 
 const SacolaScreen = ({ navigation }) => {
-    const { cart, getTotal } = useCart(); // Acessando o carrinho e a função getTotal
+    const { cart, getTotal } = useCart(); 
     const [searchText, setSearchText] = useState('');
 
     const renderItem = ({ item }) => (
@@ -43,7 +43,7 @@ const SacolaScreen = ({ navigation }) => {
             <FlatList
                 data={cart}
                 renderItem={renderItem}
-                keyExtractor={(item) => item.id_produto ? item.id_produto.toString() : item.id.toString()} // Verifique se `id_produto` existe
+                keyExtractor={(item) => item.id_produto ? item.id_produto.toString() : item.id.toString()} 
             />
 
             {/* Valor Total */}

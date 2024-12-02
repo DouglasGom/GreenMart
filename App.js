@@ -33,13 +33,13 @@ import historico from './screens/Historico';
 import Sacola from './screens/Sacola';
 import Edit from './screens/Editar';
 import { CartProvider } from './screens/CartContext';
-import { UserProvider } from './screens/UserContext'; // Importe o UserProvider aqui
+import { UserProvider } from './screens/UserContext'; 
 import { useNavigation } from '@react-navigation/native';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// Stack para DoeRoupas
+
 const DoeRoupasStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -49,12 +49,10 @@ const DoeRoupasStack = () => {
   );
 };
 
-// Função do ícone personalizado para a tab GreenCoins
 const CustomTabBarButton = ({ onPress, focused, route }) => {
   const navigation = useNavigation();
   const [iconImage, setIconImage] = useState(require('./assets/navbar.png'));
 
-  // Verifica se estamos na tela GreenCoins
   useEffect(() => {
     if (route.name === 'Prêmios') {
       if (focused) {
@@ -75,7 +73,6 @@ const CustomTabBarButton = ({ onPress, focused, route }) => {
   return <Image source={iconImage} style={{ width: 30, height: 30 }} onPress={handlePress} />;
 };
 
-// Navegação principal com a barra de abas
 const MainTabNavigator = () => {
   return (
     <Tab.Navigator

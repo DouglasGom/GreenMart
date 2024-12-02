@@ -1,18 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  Button,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import { View, Text, Button, StyleSheet, ScrollView, TouchableOpacity, Image} from 'react-native';
 import * as Notifications from 'expo-notifications';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import logo from '../assets/Logo-GreenMart.png';
-import AsyncStorage from '@react-native-async-storage/async-storage'; // Importando AsyncStorage
-
+import AsyncStorage from '@react-native-async-storage/async-storage'; 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -36,7 +27,6 @@ const NotificacoesScreen = ({ navigation }) => {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    // Recuperar notificações salvas no AsyncStorage
     const loadNotifications = async () => {
       try {
         const storedNotifications = await AsyncStorage.getItem('notifications');
@@ -48,15 +38,14 @@ const NotificacoesScreen = ({ navigation }) => {
       }
     };
 
-    loadNotifications(); // Carregar notificações quando a tela for carregada
+    loadNotifications(); 
 
-    // Listener para notificações recebidas
     const subscription = Notifications.addNotificationReceivedListener(
       async (notification) => {
         const newNotification = notification.request.content;
         setNotifications((prev) => {
           const updatedNotifications = [...prev, newNotification];
-          AsyncStorage.setItem('notifications', JSON.stringify(updatedNotifications)); // Salvar notificações no AsyncStorage
+          AsyncStorage.setItem('notifications', JSON.stringify(updatedNotifications)); 
           return updatedNotifications;
         });
       }

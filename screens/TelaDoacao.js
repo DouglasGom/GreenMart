@@ -4,15 +4,15 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import logo from '../assets/Logo-GreenMart.png';
-import timerImage from '../assets/relogio.png'; // Adicione a imagem do timer
-import cashImage from '../assets/pix.png'; // Adicione a imagem do cash
+import timerImage from '../assets/relogio.png'; 
+import cashImage from '../assets/pix.png'; 
 import * as Clipboard from 'expo-clipboard';
 import QRCode from 'react-native-qrcode-svg';
 
 const DoeRoupasScreen = () => {
     const navigation = useNavigation();
     const route = useRoute();
-    const valorDoacao = route.params?.valorDoacao || 0; // Valor da doação recebido de Doe.js
+    const valorDoacao = route.params?.valorDoacao || 0;
     const [codigoPix, setCodigoPix] = useState('');
     const [timeLeft, setTimeLeft] = useState(300);
 
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     },
     qrCodeContainer: {
         borderWidth: 10,
-        borderColor: '#FF69B4', // Cor da borda rosa
+        borderColor: '#FF69B4', 
         borderRadius: 10,
         padding: 2,
         width: 240,
@@ -196,29 +196,29 @@ const styles = StyleSheet.create({
         color: '#FF3333'
     },
     paymentContainer: {
-        backgroundColor: '#F6F6F6', // Cor do fundo do retângulo
+        backgroundColor: '#F6F6F6', 
         borderRadius: 8,
         padding: 20,
         alignItems: 'center',
-        marginBottom: 20 // Espaçamento inferior
+        marginBottom: 20 
     },
     paymentContainer2: {
-        backgroundColor: '#F6F6F6', // Cor do fundo do retângulo
+        backgroundColor: '#F6F6F6', 
         borderRadius: 8,
         padding: 20,
         marginLeft: -30,
         marginRight: -30,
         alignItems: 'flex-start',
-        marginBottom: 20 // Espaçamento inferior
+        marginBottom: 20 
     },
     paymentContainer3: {
-        backgroundColor: '#F6F6F6', // Cor do fundo do retângulo
+        backgroundColor: '#F6F6F6', 
         borderRadius: 8,
         padding: 20,
         marginLeft: -30,
         marginRight: -30,
         alignItems: 'center',
-        marginBottom: 20 // Espaçamento inferior
+        marginBottom: 20
     },
     paymentText: {
         marginBottom: 20,

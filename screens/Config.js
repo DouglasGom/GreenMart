@@ -36,7 +36,6 @@ const SettingsScreen = ({ navigation }) => {
 
   const toggleDarkMode = () => setIsDarkMode((previousState) => !previousState);
 
-  // Função para realizar o logout
   const handleLogout = async () => {
     Alert.alert(
       'Confirmar Logout',
@@ -47,10 +46,10 @@ const SettingsScreen = ({ navigation }) => {
           text: 'Sim',
           onPress: async () => {
             try {
-              await AsyncStorage.removeItem('userData'); // Remove os dados de login
-              await AsyncStorage.removeItem('profilePic'); // Remove a foto de perfil, se existir
+              await AsyncStorage.removeItem('userData'); 
+              await AsyncStorage.removeItem('profilePic'); 
               console.log('Usuário deslogado com sucesso');
-              navigation.navigate('Login'); // Redireciona para a tela de Login
+              navigation.navigate('Login'); 
             } catch (error) {
               console.error('Erro ao deslogar:', error);
             }

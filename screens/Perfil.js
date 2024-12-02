@@ -7,16 +7,16 @@ import logo from '../assets/Logo-GreenMart.png';
 export default function ProfileScreen({ navigation }) {
     const [userData, setUserData] = useState(null);
 
-    // Carregar os dados do usuário e a foto de perfil do AsyncStorage
+    
     useEffect(() => {
         const fetchUserData = async () => {
             try {
                 const storedUserData = await AsyncStorage.getItem('userData');
-                const profilePic = await AsyncStorage.getItem('profilePic'); // Recupera a foto de perfil
+                const profilePic = await AsyncStorage.getItem('profilePic'); 
                 const userData = storedUserData ? JSON.parse(storedUserData) : {};
 
                 if (profilePic) {
-                    userData.profilePic = profilePic; // Adiciona a URI da foto ao userData
+                    userData.profilePic = profilePic; 
                 }
 
                 setUserData(userData);
@@ -26,7 +26,7 @@ export default function ProfileScreen({ navigation }) {
         };
 
         fetchUserData();
-    }, []); // Executa sempre que a tela de perfil for acessada
+    }, []); 
 
     const Header = ({ navigation }) => {
         const [searchText, setSearchText] = useState('');

@@ -47,10 +47,10 @@ const HistoryScreen = ({ navigation }) => {
       {/* Header */}
       <Header navigation={navigation} />
 
-      {/* Botão de Voltar - Agora abaixo do Header */}
+      {/* Botão de Voltar*/}
       <TouchableOpacity
         style={styles.backButton}
-        onPress={() => navigation.goBack()} // Navega de volta para a tela anterior
+        onPress={() => navigation.goBack()} 
       >
         <Ionicons name="arrow-back" size={28} color="black" />
       </TouchableOpacity>
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    top: 110, // Agora abaixo do header, ajustado conforme necessário
+    top: 110, 
     left: 15,
     zIndex: 1,
   },
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: 'Poppins-Bold',
     marginBottom: 20,
-    marginTop: 10, // Ajustado para não sobrepor o botão de voltar
+    marginTop: 10, 
   },
   historyItem: {
     flexDirection: 'row',

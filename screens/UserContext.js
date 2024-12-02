@@ -6,7 +6,7 @@ export const UserProvider = ({ children }) => {
   const [userData, setUserData] = useState({
     name: 'Cakegoth',
     email: 'exemplo@email.com',
-    profilePhoto: null, // Pode ser um URL ou require para uma imagem local
+    profilePhoto: null, 
   });
 
   return (

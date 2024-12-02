@@ -40,7 +40,7 @@ const CouponsScreen = ({ navigation }) => {
     const loggedUser = { email: 'user@example.com' };
     if (loggedUser) {
       setUser(loggedUser);
-      setCurrentGreencoins(300); // Simulando a quantidade de Greencoins
+      setCurrentGreencoins(300); 
     } else {
       setUser(null);
       setCurrentGreencoins(0);
@@ -158,7 +158,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Regular',
     textAlign: 'justify',
   },
-  // Nova seção para exibir a quantidade de Greencoins
   greencoinsSection: {
     flexDirection: 'row',
     alignItems: 'center',

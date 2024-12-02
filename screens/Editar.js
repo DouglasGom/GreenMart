@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Platform, ActionSheetIOS } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage'; // Importa o AsyncStorage
+import AsyncStorage from '@react-native-async-storage/async-storage'; 
 
 const ProfileScreen = ({ userEmail }) => {
   const [isEditable, setIsEditable] = useState(false);
@@ -22,17 +22,14 @@ const ProfileScreen = ({ userEmail }) => {
     address: false,
   });
 
-  // Carrega os dados de perfil ao montar o componente
   useEffect(() => {
     const loadProfileData = async () => {
       try {
-        // Tenta recuperar a foto de perfil armazenada
         const savedProfilePic = await AsyncStorage.getItem('profilePic');
         if (savedProfilePic) {
           setProfilePic({ uri: savedProfilePic });
         }
 
-        // Buscar as informações do usuário no backend
         const response = await fetch(`http://192.168.1.5:3000/perfil?email=${userEmail}`);
         const data = await response.json();
 
@@ -57,7 +54,6 @@ const ProfileScreen = ({ userEmail }) => {
 
   const handleEditToggle = () => {
     if (isEditable) {
-      // Enviar dados atualizados para o backend
       fetch('http://192.168.1.3:3000/update-profile', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -96,7 +92,7 @@ const ProfileScreen = ({ userEmail }) => {
             if (!result.canceled) {
               const uri = result.assets[0].uri;
               setProfilePic({ uri });
-              await AsyncStorage.setItem('profilePic', uri); // Armazena a foto de perfil
+              await AsyncStorage.setItem('profilePic', uri);
             }
           } else if (buttonIndex === 1) {
             const result = await ImagePicker.launchCameraAsync({
@@ -107,7 +103,7 @@ const ProfileScreen = ({ userEmail }) => {
             if (!result.canceled) {
               const uri = result.assets[0].uri;
               setProfilePic({ uri });
-              await AsyncStorage.setItem('profilePic', uri); // Armazena a foto de perfil
+              await AsyncStorage.setItem('profilePic', uri);
             }
           }
         }
@@ -129,7 +125,7 @@ const ProfileScreen = ({ userEmail }) => {
               if (!result.canceled) {
                 const uri = result.assets[0].uri;
                 setProfilePic({ uri });
-                await AsyncStorage.setItem('profilePic', uri); // Armazena a foto de perfil
+                await AsyncStorage.setItem('profilePic', uri); 
               }
             },
           },
@@ -144,7 +140,7 @@ const ProfileScreen = ({ userEmail }) => {
               if (!result.canceled) {
                 const uri = result.assets[0].uri;
                 setProfilePic({ uri });
-                await AsyncStorage.setItem('profilePic', uri); // Armazena a foto de perfil
+                await AsyncStorage.setItem('profilePic', uri); 
               }
             },
           },
@@ -179,8 +175,8 @@ const ProfileScreen = ({ userEmail }) => {
             >
               <Image
                 source={showFields[field]
-                  ? require('../assets/olho1.png') // Mostrar informações
-                  : require('../assets/olho2.png')} // Esconder informações
+                  ? require('../assets/olho1.png') 
+                  : require('../assets/olho2.png')} 
                 style={styles.eyeIcon}
               />
             </TouchableOpacity>

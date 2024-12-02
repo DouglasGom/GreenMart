@@ -26,7 +26,7 @@ const Header = ({ navigation }) => {
 };
 
 const CouponsScreen = ({ navigation }) => {
-  const currentGreencoins = 50; // Exemplo de GreenCoins atuais do usuário
+  const currentGreencoins = 50; 
   const coupons = [
     { id: 1, title: '5% de desconto (nacionais)', cost: 100, image: cupom1},
     { id: 2, title: 'Cupom BOAS VINDAS 10% OFF', cost: 100, image: cupom2, exclusive: true },
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    paddingHorizontal: 20, // Ajusta o padding apenas para os itens de cupom
+    paddingHorizontal: 20, 
   },
   couponCard: {
     backgroundColor: '#FFFFFF',

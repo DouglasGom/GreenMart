@@ -8,7 +8,7 @@ import logo from '../assets/Logo-GreenMart.png';
 
 const DoeRoupasDetail = ({ route }) => {
     const navigation = useNavigation();
-    const { ong } = route.params; // Recebe os dados da ONG da navegação anterior
+    const { ong } = route.params; 
     const [searchText, setSearchText] = useState('');
     const [fontsLoaded] = useFonts({
         'Poppins-Regular': require('../assets/fonts/Poppins/Poppins-Regular.ttf'),
@@ -19,11 +19,9 @@ const DoeRoupasDetail = ({ route }) => {
         return null;
     }
 
-    // Valores padrão para a localização, caso a ONG não tenha coordenadas
-    const latitude = ong?.location?.latitude || -23.55052; // São Paulo como valor padrão
-    const longitude = ong?.location?.longitude || -46.633308; // São Paulo como valor padrão
+    const latitude = ong?.location?.latitude || -23.55052; 
+    const longitude = ong?.location?.longitude || -46.633308; 
 
-    // Função para abrir links das redes sociais
     const openLink = (url) => {
         if (url) {
             Linking.openURL(url);

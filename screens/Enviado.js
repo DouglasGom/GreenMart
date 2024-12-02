@@ -9,12 +9,11 @@ import {
   TextInput,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import logo from '../assets/Logo-GreenMart.png'; // Importa o logo
+import logo from '../assets/Logo-GreenMart.png';
 
 const MinhasComprasScreen = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
 
-  // Lista de exemplo de roupas feitas com materiais sustentáveis
   const roupasSustentaveis = [
     {
       id: '1',
@@ -58,7 +57,6 @@ const MinhasComprasScreen = ({ navigation }) => {
     },
   ];
 
-  // Função para determinar o estilo baseado no status do pedido
   const getStatusStyle = (status) => {
     switch (status) {
       case 'Preparando':

@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView, Image, TextInput, StyleSheet 
 import { Ionicons } from '@expo/vector-icons';
 import logo from '../assets/Logo-GreenMart.png';
 
-// Dados de categorias
+
 const categories = [
   { id: 1, title: 'Vestidos', image: require('../assets/Categorias/Vestido.jpg'), discount: '60%' },
   { id: 2, title: 'Agasalhos', image: require('../assets/Categorias/Agasalhos.jpg'), discount: '10%' },
@@ -13,7 +13,7 @@ const categories = [
   { id: 6, title: 'Malhas', image: require('../assets/Categorias/Malhas.jpg'), discount: '10%' },
 ];
 
-// Componente Header
+
 const Header = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
 
@@ -48,7 +48,7 @@ const SidebarMenu = ({ navigation }) => {
         {menuItems.map((item, index) => (
           <TouchableOpacity 
             key={index} 
-            onPress={() => navigation.navigate('prod', { category: item })}  // Aqui passa o tipo de produto
+            onPress={() => navigation.navigate('prod', { category: item })}  
           >
             <Text style={styles.menuItem}>{item}</Text>
           </TouchableOpacity>
@@ -68,7 +68,7 @@ const Promotions = ({ navigation }) => {
           <TouchableOpacity
             key={category.id}
             style={styles.card}
-            onPress={() => navigation.navigate('prod', { category: category.title })}  // Passa o título da categoria
+            onPress={() => navigation.navigate('prod', { category: category.title })}  
           >
             <View style={styles.cardImageContainer}>
               <Image source={category.image} style={styles.cardImage} />
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   menuItem: {
-    fontSize: 15,
+    fontSize: 14,
     paddingVertical: 10,
     fontFamily: 'Poppins-Regular'
   },

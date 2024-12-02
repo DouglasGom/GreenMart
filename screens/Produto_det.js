@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import logo from '../assets/Logo-GreenMart.png';
-import { useCart } from './CartContext'; // Usando o contexto para gerenciar o carrinho
+import { useCart } from './CartContext'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Header = ({ navigation }) => {
@@ -33,24 +33,23 @@ const Header = ({ navigation }) => {
 };
 
 const ProductDetailScreen = ({ route, navigation }) => {
-  const { product } = route.params; // Recebe o produto passado na navegação
-  const { addToCart, cart } = useCart(); // Acessando o contexto do carrinho
-  const [message, setMessage] = useState(''); // Estado para a mensagem de sucesso
+  const { product } = route.params; 
+  const { addToCart, cart } = useCart(); 
+  const [message, setMessage] = useState(''); 
 
   const handleAddToCart = () => {
     const existingProduct = cart.find((item) => item.id_produto === product.id_produto);
     if (existingProduct) {
-      // Se o produto já existir no carrinho, aumente a quantidade
+      
       existingProduct.quantity += 1;
     } else {
-      // Caso contrário, adicione o produto ao carrinho
+      
       addToCart({ ...product, quantity: 1 });
     }
-    setMessage('Adicionado à sacola!'); // Exibe a mensagem de confirmação
-    setTimeout(() => setMessage(''), 2000); // Limpa a mensagem após 2 segundos
+    setMessage('Adicionado à sacola!'); 
+    setTimeout(() => setMessage(''), 2000);
   };
 
-  // Função para salvar o produto no histórico
   const addToHistory = async () => {
     try {
       const storedHistory = await AsyncStorage.getItem('history');
@@ -67,7 +66,7 @@ const ProductDetailScreen = ({ route, navigation }) => {
     }
   };
 
-  // Adicionar o produto ao histórico ao visualizar a tela
+  
   useEffect(() => {
     addToHistory();
   }, []);
@@ -272,7 +271,7 @@ const styles = StyleSheet.create({
     bottom: 80,
     left: '10%',
     right: '10%',
-    backgroundColor: '#28a745',
+    backgroundColor: '#0CD028',
     padding: 15,
     borderRadius: 10,
     justifyContent: 'center',

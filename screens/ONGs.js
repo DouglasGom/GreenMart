@@ -3,8 +3,8 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput 
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { db } from '../firebaseConfig'; // Importe o Firestore corretamente
-import { collection, getDocs, query, where } from 'firebase/firestore'; // Funções do Firestore
+import { db } from '../firebaseConfig';
+import { collection, getDocs, query, where } from 'firebase/firestore'; 
 import logo from '../assets/Logo-GreenMart.png';
 
 const DoeRoupasScreen = () => {
@@ -17,22 +17,22 @@ const DoeRoupasScreen = () => {
     });
 
     useEffect(() => {
-        // Função para buscar as ONGs do Firestore
+
         const fetchOngs = async () => {
             try {
-                // Cria uma referência para a coleção de ONGs
-                const ongsRef = collection(db, 'ongs');
-                const q = query(ongsRef); // Você pode adicionar filtros aqui, se necessário
 
-                // Recupera os documentos das ONGs
+                const ongsRef = collection(db, 'ongs');
+                const q = query(ongsRef); 
+
+
                 const querySnapshot = await getDocs(q);
                 const fetchedOngs = querySnapshot.docs.map(doc => ({
                     id: doc.id,
                     ...doc.data(),
                 }));
 
-                console.log(fetchedOngs); // Verifique se os dados estão sendo retornados corretamente
-                setOngs(fetchedOngs); // Armazena as ONGs no estado
+                console.log(fetchedOngs); 
+                setOngs(fetchedOngs); 
             } catch (error) {
                 console.error('Erro ao buscar as ONGs:', error);
             }
@@ -66,7 +66,7 @@ const DoeRoupasScreen = () => {
                 {ongs && ongs.length > 0 ? (
                     ongs
                         .filter((ong) => {
-                            // Verifica se o nome da ONG existe e se ele é uma string
+
                             const name = ong.nome_ong || '';
                             return name.toLowerCase().includes(searchText.toLowerCase());
                         })
@@ -89,16 +89,66 @@ const DoeRoupasScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#fff' },
-    header: { marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 15 },
-    logo: { width: 70, height: 70, resizeMode: 'contain' },
-    searchInput: { flex: 1, height: 40, backgroundColor: '#e0e0e0', borderRadius: 8, paddingHorizontal: 10, marginHorizontal: 15, fontFamily: 'Poppins-Regular' },
-    partnersSection: { padding: 15, marginHorizontal: 15 },
-    partnersTitle: { fontSize: 20, marginBottom: 10, textAlign: 'center', fontFamily: 'Poppins-Bold' },
-    ongButton: { alignItems: 'center', marginBottom: 20, backgroundColor: '#f0f0f0', padding: 10 },
-    ongImage: { width: '100%', height: 180, borderRadius: 8 },
-    causeTitle: { fontSize: 20, marginBottom: 5, marginTop: 10, textAlign: 'center', fontFamily: 'Poppins-Bold' },
-    noResults: { textAlign: 'center', fontSize: 18, marginTop: 20 }
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
+    header: {
+        marginTop: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 15,
+    },
+    logo: {
+        width: 70,
+        height: 70,
+        resizeMode: 'contain',
+    },
+    searchInput: {
+        flex: 1,
+        height: 40,
+        backgroundColor: '#e0e0e0',
+        borderRadius: 8,
+        paddingHorizontal: 10,
+        marginHorizontal: 15,
+        fontFamily: 'Poppins-Regular',
+    },
+    partnersSection: {
+        padding: 15,
+        marginHorizontal: 15,
+    },
+    partnersTitle: {
+        fontSize: 20,
+        marginBottom: 10,
+        textAlign: 'center',
+        fontFamily: 'Poppins-Bold',
+    },
+    ongButton: {
+        alignItems: 'center',
+        marginBottom: 20,
+        backgroundColor: '#f0f0f0',
+        borderWidth: 2,
+        borderColor: '#999999',
+        borderRadius: 8,
+    },
+    ongImage: {
+        width: '100%',
+        height: 250,
+    },
+    causeTitle: {
+        fontSize: 20,
+        marginBottom: 5,
+        marginTop: 10,
+        textAlign: 'center',
+        fontFamily: 'Poppins-Bold',
+    },
+    noResults: {
+        textAlign: 'center',
+        fontSize: 18,
+        marginTop: 20,
+    },
 });
+
 
 export default DoeRoupasScreen;

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
-import { db } from '../firebaseConfig'; // Importe o Firestore corretamente
-import { collection, query, where, getDocs } from 'firebase/firestore'; // Funções do Firestore
+import { db } from '../firebaseConfig'; 
+import { collection, query, where, getDocs } from 'firebase/firestore'; 
 import logo from '../assets/Logo-GreenMart.png';
 
 const Header = ({ navigation }) => {
@@ -28,25 +28,24 @@ const Header = ({ navigation }) => {
 const ProductsScreen = ({ navigation }) => {
   const route = useRoute();
   const [products, setProducts] = useState([]);
-  const [category, setCategory] = useState(route.params?.category || 'roupas'); // Categoria inicial padrão.
-
+  const [category, setCategory] = useState(route.params?.category || 'roupas'); 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // Cria uma referência para a coleção de produtos
+
         const produtosRef = collection(db, "produtos");
-        // Cria uma consulta para filtrar os produtos pela categoria
+
         const q = query(produtosRef, where("tipo", "==", category));
-        // Recupera os documentos que correspondem à consulta
+
         const querySnapshot = await getDocs(q);
         
-        // Mapeia os documentos para obter os dados de cada produto
+
         const fetchedProducts = querySnapshot.docs.map(doc => ({
           id_produto: doc.id,
-          ...doc.data(), // Dados do produto
+          ...doc.data(), 
         }));
 
-        // Atualiza o estado com os produtos encontrados
+
         setProducts(fetchedProducts);
       } catch (error) {
         console.error('Erro ao buscar produtos:', error);
@@ -54,7 +53,7 @@ const ProductsScreen = ({ navigation }) => {
     };
 
     fetchProducts();
-  }, [category]); // Atualiza os produtos sempre que a categoria mudar.
+  }, [category]); 
 
   return (
     <View style={{ flex: 1 }}>

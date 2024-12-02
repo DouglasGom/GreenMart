@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, FlatList, Dimensions, Animated, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-// Dados de onboarding
 const onboardingData = [
   {
     id: '1',
@@ -77,7 +76,7 @@ const OnboardingScreen = ({ navigation }) => {
     if (currentIndex < onboardingData.length - 1) {
       flatListRef.current.scrollToIndex({ index: currentIndex + 1, animated: true });
     } else {
-      navigation.navigate('Cadastro'); // Navegar para a tela de Cadastro no último slide
+      navigation.navigate('Cadastro'); 
     }
   };
 

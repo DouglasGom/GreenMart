@@ -81,62 +81,147 @@ const DoeRoupasScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#fff' },
+    container: { 
+      flex: 1, 
+      backgroundColor: '#fff' 
+    },
+  
     header: {
-        marginTop: 20,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 15,
+      marginTop: 20,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      padding: 15,
     },
-    logo: { width: 70, height: 70, resizeMode: 'contain' },
+  
+    logo: { 
+      width: 70, 
+      height: 70, 
+      resizeMode: 'contain' 
+    },
+  
     searchInput: {
-        flex: 1,
-        height: 40,
-        backgroundColor: '#e0e0e0',
-        borderRadius: 8,
-        paddingHorizontal: 10,
-        marginHorizontal: 15,
+      flex: 1,
+      height: 40,
+      backgroundColor: '#e0e0e0',
+      borderRadius: 8,
+      paddingHorizontal: 10,
+      marginHorizontal: 15,
     },
+  
     coinsHeader: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 15,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.5,
-        shadowRadius: 4,
-        elevation: 5,
-        backgroundColor: '#fff',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      padding: 15,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.5,
+      shadowRadius: 4,
+      elevation: 5,
+      backgroundColor: '#fff',
     },
-    greenCoinsImage: { width: 25, height: 25, marginRight: 3, marginLeft: -20 },
-    greenCoinsContent: { alignItems: 'center' },
-    greenCoinsText: { fontSize: 16, fontFamily: 'Poppins-Bold' },
-    greenCoinsContainer: { flexDirection: 'row', alignItems: 'center' },
-    coinValue: { fontSize: 16, fontFamily: 'Poppins-Bold', marginTop: -2, marginRight: 20 },
-    exchangeButton: { backgroundColor: '#A6F2A4', paddingVertical: 5, paddingHorizontal: 5, borderRadius: 30 },
-    exchangeButtonText: { color: '#000', fontFamily: 'Poppins-Bold' },
-    causeSection: { padding: 15, backgroundColor: 'rgba(166, 242, 164, 0.73)' },
+  
+    greenCoinsImage: { 
+      width: 25, 
+      height: 25, 
+      marginRight: 3, 
+      marginLeft: -20 
+    },
+  
+    greenCoinsContent: { 
+      alignItems: 'center' 
+    },
+  
+    greenCoinsText: { 
+      fontSize: 16, 
+      fontFamily: 'Poppins-Bold' 
+    },
+  
+    greenCoinsContainer: { 
+      flexDirection: 'row', 
+      alignItems: 'center' 
+    },
+  
+    coinValue: { 
+      fontSize: 16, 
+      fontFamily: 'Poppins-Bold', 
+      marginTop: -2, 
+      marginRight: 20 
+    },
+  
+    exchangeButton: { 
+      backgroundColor: '#A6F2A4', 
+      paddingVertical: 5, 
+      paddingHorizontal: 5, 
+      borderRadius: 30 
+    },
+  
+    exchangeButtonText: { 
+      color: '#000', 
+      fontFamily: 'Poppins-Bold' 
+    },
+  
+    causeSection: { 
+      padding: 15, 
+      backgroundColor: 'rgba(166, 242, 164, 0.73)' 
+    },
+  
     causeTitle: {
-        fontSize: 20,
-        marginBottom: 5,
-        marginTop: 17,
-        textAlign: 'center',
-        fontFamily: 'Poppins-Bold',
+      fontSize: 20,
+      marginBottom: 5,
+      marginTop: 17,
+      textAlign: 'center',
+      fontFamily: 'Poppins-Bold',
     },
-    causeText: { fontSize: 14, color: '#333', fontFamily: 'Poppins-Regular', textAlign: 'justify' },
-    collectionPointsSection: { padding: 15, marginHorizontal: 15 },
+  
+    causeText: { 
+      fontSize: 14, 
+      color: '#333', 
+      fontFamily: 'Poppins-Regular', 
+      textAlign: 'justify' 
+    },
+  
+    collectionPointsSection: { 
+      padding: 15, 
+      marginHorizontal: 15 
+    },
+  
     collectionPointsTitle: {
-        fontSize: 20,
-        marginBottom: 10,
-        textAlign: 'center',
-        fontFamily: 'Poppins-Bold',
+      fontSize: 20,
+      marginBottom: 10,
+      textAlign: 'center',
+      fontFamily: 'Poppins-Bold',
     },
-    map: { width: '100%', height: 200, borderRadius: 8, marginBottom: 10 },
-    collectionPointsText: { fontSize: 14, color: '#333', marginBottom: 15, fontFamily: 'Poppins-Regular', textAlign: 'justify' },
-    donateButton: { backgroundColor: '#FFA6E1', paddingVertical: 10, paddingHorizontal: 30, borderRadius: 8, alignSelf: 'center' },
-    donateButtonText: { color: '#000', fontFamily: 'Poppins-Bold' },
-});
+  
+    map: { 
+      width: '100%', 
+      height: 200, 
+      borderRadius: 8, 
+      marginBottom: 10 
+    },
+  
+    collectionPointsText: { 
+      fontSize: 14, 
+      color: '#333', 
+      marginBottom: 15, 
+      fontFamily: 'Poppins-Regular', 
+      textAlign: 'justify' 
+    },
+  
+    donateButton: { 
+      backgroundColor: '#FFA6E1', 
+      paddingVertical: 10, 
+      paddingHorizontal: 30, 
+      borderRadius: 8, 
+      alignSelf: 'center' 
+    },
+  
+    donateButtonText: { 
+      color: '#000', 
+      fontFamily: 'Poppins-Bold' 
+    },
+  });
+  
 
 export default DoeRoupasScreen;

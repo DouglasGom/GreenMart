@@ -2,25 +2,17 @@ const express = require('express');
 const cors = require('cors');
 const admin = require('firebase-admin');
 
-// Inicializar o Firebase Admin
 const serviceAccount = require('./firebase-service-account.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  // Remover a linha databaseURL para Firestore
 });
 
-// Inicializar Firestore
 const db = admin.firestore();
-
-// Configuração do servidor
 const app = express();
 app.use(express.json());
-app.use(cors({
-  origin: '*', // Ajuste conforme o IP ou domínio do seu app
-}));
+app.use(cors({ origin: '*' }));
 
-// Rota para registrar usuário
 app.post('/register', async (req, res) => {
   const { nome_usuario, email, senha, cpf, telefone, endereco_fisico } = req.body;
 
@@ -51,7 +43,6 @@ app.post('/register', async (req, res) => {
   }
 });
 
-// Rota para login
 app.post('/login', async (req, res) => {
   const { email } = req.body;
 
@@ -74,7 +65,6 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// Rota para buscar perfil do usuário
 app.get('/perfil', async (req, res) => {
   const { email } = req.query;
 
@@ -97,7 +87,6 @@ app.get('/perfil', async (req, res) => {
   }
 });
 
-// Rota para atualizar perfil
 app.post('/update-profile', async (req, res) => {
   const { email, nome_usuario, cpf, telefone, endereco_fisico } = req.body;
 
@@ -122,7 +111,6 @@ app.post('/update-profile', async (req, res) => {
   }
 });
 
-// Rota para buscar saldo de Greencoins
 app.get('/greencoins', async (req, res) => {
   const { email } = req.query;
 
@@ -145,7 +133,6 @@ app.get('/greencoins', async (req, res) => {
   }
 });
 
-// Rota para atualizar saldo de Greencoins
 app.post('/update-greencoins', async (req, res) => {
   const { email, greencoins } = req.body;
 
@@ -167,7 +154,6 @@ app.post('/update-greencoins', async (req, res) => {
   }
 });
 
-// Inicia o servidor
 const port = 3000;
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { db } from '../firebaseConfig'; // Importe a configuração do Firebase
-import { collection, getDocs } from 'firebase/firestore'; // Funções para obter dados do Firestore
+import { db } from '../firebaseConfig';
+import { collection, getDocs } from 'firebase/firestore'; 
 import logo from '../assets/Logo-GreenMart.png';
 
-// Componente Header
+
 const Header = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
 
@@ -25,16 +25,14 @@ const Header = ({ navigation }) => {
   );
 };
 
-// Tela principal de vídeos com o Header
 export default function VideoListScreen({ navigation }) {
   const [videos, setVideos] = useState([]);
 
   useEffect(() => {
-    // Buscar vídeos do Firestore
     const fetchVideos = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "videos"));
-        const videosData = querySnapshot.docs.map(doc => doc.data()); // Mapeando os dados para o formato desejado
+        const videosData = querySnapshot.docs.map(doc => doc.data()); 
         setVideos(videosData);
       } catch (error) {
         console.error('Erro ao buscar vídeos:', error);
@@ -69,7 +67,7 @@ export default function VideoListScreen({ navigation }) {
       </View>
       <FlatList
         data={videos}
-        keyExtractor={(item, index) => index.toString()} // Usando índice como chave
+        keyExtractor={(item, index) => index.toString()} 
         renderItem={renderItem}
       />
     </View>
@@ -100,11 +98,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Regular',
   },
   card: {
-    marginBottom: 20,
+    marginBottom: 70,
     backgroundColor: '#f9f9f9',
     padding: 10,
     borderRadius: 8,
-    height: 330
+    height: 400
   },
   image: { width: '100%', height: 200, borderRadius: 8 },
   title: {
@@ -137,7 +135,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   filterButton: {
-    backgroundColor: '#4CAF50', // Verde
+    backgroundColor: '#0CD028', 
     padding: 10,
     borderRadius: 8,
     alignItems: 'center',

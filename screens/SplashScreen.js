@@ -2,31 +2,31 @@ import React, { useEffect } from 'react';
 import { View, ActivityIndicator, StyleSheet, Image, Text, Animated } from 'react-native';
 
 const SplashScreen = ({ onFinish }) => {
-  const logoAnim = new Animated.Value(0); // Controla a posição da logo
-  const fadeAnim = new Animated.Value(0); // Controla a opacidade do texto e loader
-  const splashFadeAnim = new Animated.Value(1); // Controla a opacidade da tela Splash
+  const logoAnim = new Animated.Value(0); 
+  const fadeAnim = new Animated.Value(0); 
+  const splashFadeAnim = new Animated.Value(1); 
 
   useEffect(() => {
-    // Animar a logo de baixo para cima
+    
     Animated.timing(logoAnim, {
-      toValue: 1, // Mover para cima
-      duration: 1000, // Duração da animação da logo
-      useNativeDriver: true, // Usar driver nativo para melhor desempenho
+      toValue: 1, 
+      duration: 1000, 
+      useNativeDriver: true,
     }).start(() => {
-      // Após a animação da logo, iniciar a animação de desvanecimento para o texto e loader
+      
       Animated.timing(fadeAnim, {
-        toValue: 1, // Mudar a opacidade para 1
-        duration: 500, // Duração da animação de opacidade
-        useNativeDriver: true, // Usar driver nativo
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true, 
       }).start(() => {
-        // Aguardar 1 segundo antes de chamar onFinish e iniciar a animação de desvanecimento da tela Splash
+        
         setTimeout(() => {
           Animated.timing(splashFadeAnim, {
-            toValue: 0, // Mudar a opacidade para 0
-            duration: 500, // Duração da animação de desvanecimento
+            toValue: 0, 
+            duration: 500, 
             useNativeDriver: true,
           }).start(() => {
-            onFinish(); // Chamar a função de término após a animação
+            onFinish(); 
           });
         }, 1000);
       });
@@ -39,7 +39,7 @@ const SplashScreen = ({ onFinish }) => {
         source={require('../assets/Logo-GreenMart.png')}
         style={[styles.logo, { transform: [{ translateY: logoAnim.interpolate({
           inputRange: [0, 1],
-          outputRange: [200, 0] // Move a logo de 200 pixels abaixo até a posição original
+          outputRange: [200, 0] 
         }) }] }]}
       />
       <Animated.View style={{ opacity: fadeAnim }}>

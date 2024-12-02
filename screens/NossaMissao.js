@@ -5,7 +5,6 @@ import logo from '../assets/Logo-GreenMart.png';
 import missao1 from '../assets/missao1.jpg';
 import missao2 from '../assets/missao2.png';
 
-// Header Component
 const Header = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
 
