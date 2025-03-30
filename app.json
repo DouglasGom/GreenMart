@@ -1,0 +1,37 @@
+{
+  "expo": {
+    "name": "GreenMart",
+    "slug": "GreenMart",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/Logo-GreenMart.png",
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single",
+      "favicon": "./assets/images/fLogo-GreenMart.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "react-native-video"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "e5d82a73-72d1-4a3f-82d8-aba66aa4449c"
+      }
+    },
+    "owner": "dfgsd"
+  }
+}
