@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -6,9 +6,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  Animated,
   ImageBackground,
   FlatList,
   Dimensions,
+  TextInput,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ProductCard } from '@/components/ProductCard';
@@ -31,15 +33,17 @@ import { FontAwesome } from '@expo/vector-icons';
 import May from '../../assets/images/may.png';
 import Nat from '../../assets/images/nat.png';
 import Dodo from '../../assets/images/dodo.png';
+import Erika from '../../assets/images/erika.png';
+import SearchHeader from './searchHeader';
 
 const { width } = Dimensions.get('window');
+
 
 const banners = [
   { id: 1, image: require('../../assets/images/Banner.png') },
   { id: 2, image: require('../../assets/images/Banner2.png') },
   { id: 3, image: require('../../assets/images/Banner3.png') },
 ];
-
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -51,7 +55,6 @@ export default function HomeScreen() {
     selectedCategory === 'All'
       ? products
       : products.filter((product) => product.category === selectedCategory);
-
 
   const renderItem = ({ item }) => (
     <ImageBackground
@@ -127,424 +130,409 @@ export default function HomeScreen() {
       onPress={() => router.push(`/product/${product.id}`)}
     />
   ));
+  
 
   return (
     <ScrollView
       style={styles.container}
       contentContainerStyle={{ flexGrow: 1 }}
     >
-      <View style={styles.header}>
-        <TouchableOpacity>
-          <Ionicons name="menu-outline" size={30} color="black" />
-        </TouchableOpacity>
-        <Image source={Logo} style={styles.logo} />
-        <TouchableOpacity>
-          <EvilIcons name="search" size={35} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <SimpleLineIcons name="handbag" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
+      <SearchHeader />
+        <FlatList
+          data={banners}
+          renderItem={renderItem}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item) => item.id.toString()}
+          onMomentumScrollEnd={(event) => {
+            const index = Math.floor(event.nativeEvent.contentOffset.x / width);
+            setActiveIndex(index);
+          }}
+          style={{ width: '100%' }}
+        />
 
-      <FlatList
-        data={banners}
-        renderItem={renderItem}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={(item) => item.id.toString()}
-        onMomentumScrollEnd={(event) => {
-          const index = Math.floor(event.nativeEvent.contentOffset.x / width);
-          setActiveIndex(index);
-        }}
-        style={{ width: '100%' }}
-      />
-
-      <View style={styles.pagination}>
-        {banners.map((_, index) => (
-          <View
-            key={index}
-            style={[
-              styles.paginationDot,
-              index === activeIndex && styles.paginationDotActive,
-            ]}
-          />
-        ))}
-      </View>
-
-      <Text style={styles.title}>LANÇAMENTOS</Text>
-      <Image source={Line} style={styles.line} />
-
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={styles.categoriesContainer}
-        contentContainerStyle={styles.categoriesContent}
-      >
-        {categories.map((category, index) => (
-          <TouchableOpacity
-            key={category}
-            onPress={() => setSelectedCategory(category)}
-            style={styles.categoryButton}
-          >
-            <Text
+        <View style={styles.pagination}>
+          {banners.map((_, index) => (
+            <View
+              key={index}
               style={[
-                styles.categoryText,
-                selectedCategory === category && styles.categoryTextActive,
+                styles.paginationDot,
+                index === activeIndex && styles.paginationDotActive,
               ]}
-            >
-              {category}
-            </Text>
-            {selectedCategory === category && <View style={styles.indicator} />}
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-
-      <FlatList
-        data={filteredProducts}
-        renderItem={({ item }) => (
-          <ProductCard
-            product={item}
-            onPress={() => router.push(`/product/${item.id}`)}
-          />
-        )}
-        keyExtractor={(item) => item.id.toString()}
-        numColumns={2}
-        columnWrapperStyle={{ justifyContent: 'space-between' }}
-        contentContainerStyle={styles.productsContainer}
-        scrollEnabled={false}
-      />
-
-      <View style={styles.seeMore}>
-        <TouchableOpacity style={styles.seeMoreButton}>
-          <Text style={styles.seeMoreText}>Ver Mais</Text>
-          <Ionicons name="arrow-forward-outline" size={30} color="black" />
-        </TouchableOpacity>
-      </View>
-
-      <Image
-        source={Line}
-        style={{
-          resizeMode: 'center',
-          width: '40%',
-          marginBottom: 20,
-          marginTop: 20,
-          alignSelf: 'center',
-        }}
-      />
-
-      <Image
-        source={Brands}
-        style={{
-          resizeMode: 'center',
-          width: '100%',
-          marginBottom: -70,
-          marginTop: -70,
-          alignSelf: 'center',
-        }}
-      />
-
-      <Image
-        source={Line}
-        style={{
-          resizeMode: 'center',
-          width: '40%',
-          marginBottom: 50,
-          marginTop: 20,
-          alignSelf: 'center',
-        }}
-      />
-
-      <View style={styles.Collections}>
-        <Text style={styles.title}>COLEÇÕES</Text>
-
-        <TouchableOpacity style={{ marginTop: 50 }}>
-          <Image
-            source={CollectionBanner}
-            style={{
-              width: width,
-              height: 250,
-              marginBottom: 50,
-              resizeMode: 'cover',
-              alignSelf: 'center',
-            }}
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity>
-          <Image
-            source={CollectionBanner2}
-            style={{
-              width: 250,
-              alignSelf: 'center',
-              resizeMode: 'stretch',
-              height: 250,
-              marginBottom: 50,
-            }}
-          />
-        </TouchableOpacity>
-
-        <View>
-          <Video
-            source={Campeao}
-            style={styles.video}
-            useNativeControls={false}
-            isLooping
-            shouldPlay={isPlaying}
-          />
-          <View style={styles.videoControls}>
-            <TouchableOpacity
-              style={styles.playPauseButton}
-              onPress={() => setIsPlaying(!isPlaying)}
-            >
-              <Ionicons
-                name={isPlaying ? 'pause' : 'play'}
-                size={30}
-                color="#fff"
-              />
-            </TouchableOpacity>
-          </View>
+            />
+          ))}
         </View>
-      </View>
 
-      <View style={styles.Collections}>
-        <Text style={styles.title}>PARA VOCÊ</Text>
-        <Image
-          source={Line}
-          style={{
-            resizeMode: 'center',
-            width: '40%',
-            marginBottom: -30,
-            marginTop: 10,
-            alignSelf: 'center',
-          }}
-        />
+        <Text style={styles.title}>LANÇAMENTOS</Text>
+        <Image source={Line} style={styles.line} />
 
-        <RecommendationCarousel />
-      </View>
-
-      <Text style={styles.title}>@EM ALTA</Text>
-      <View style={styles.trending}>
-        <TouchableOpacity style={styles.trend}>
-          <Text>#2025</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.trend}>
-          <Text>#Spring</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.trend}>
-          <Text>#Collect</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.trend}>
-          <Text>#Fall</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.trending2}>
-        <TouchableOpacity style={styles.trend}>
-          <Text>#Dress</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.trend}>
-          <Text>#Autumn</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.trend}>
-          <Text>#Fashion</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.about}>
-        <Image source={Logo} style={styles.logo2} />
-        <Text
-          style={{
-            textAlign: 'center',
-            fontFamily: 'Poppins_400Regular',
-            padding: 25,
-          }}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.categoriesContainer}
+          contentContainerStyle={styles.categoriesContent}
         >
-          Oferecer um estilo de vida sustentável acessível a todas as pessoas é
-          o nosso objetivo..
-        </Text>
+          {categories.map((category, index) => (
+            <TouchableOpacity
+              key={category}
+              onPress={() => setSelectedCategory(category)}
+              style={styles.categoryButton}
+            >
+              <Text
+                style={[
+                  styles.categoryText,
+                  selectedCategory === category && styles.categoryTextActive,
+                ]}
+              >
+                {category}
+              </Text>
+              {selectedCategory === category && (
+                <View style={styles.indicator} />
+              )}
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+
+        <FlatList
+          data={filteredProducts}
+          renderItem={({ item }) => (
+            <ProductCard
+              product={item}
+              onPress={() => router.push(`/product/${item.id}`)}
+            />
+          )}
+          keyExtractor={(item) => item.id.toString()}
+          numColumns={2}
+          columnWrapperStyle={{ justifyContent: 'space-between' }}
+          contentContainerStyle={styles.productsContainer}
+          scrollEnabled={false}
+        />
+
+        <View style={styles.seeMore}>
+          <TouchableOpacity style={styles.seeMoreButton}>
+            <Text style={styles.seeMoreText}>Ver Mais</Text>
+            <Ionicons name="arrow-forward-outline" size={30} color="black" />
+          </TouchableOpacity>
+        </View>
+
         <Image
           source={Line}
           style={{
             resizeMode: 'center',
             width: '40%',
-            marginBottom: -30,
-            marginTop: -50,
-            alignSelf: 'center',
-          }}
-        />
-        <Image
-          source={Sobre}
-          style={{
-            resizeMode: 'stretch',
-            width: 300,
-            height: 200,
+            marginBottom: 20,
             marginTop: 20,
             alignSelf: 'center',
           }}
         />
 
         <Image
-          source={Leaf}
+          source={Brands}
           style={{
-            resizeMode: 'stretch',
-            width: 30,
-            height: 40,
-            marginTop: 50,
+            resizeMode: 'center',
+            width: '100%',
+            marginBottom: -70,
+            marginTop: -70,
+            alignSelf: 'center',
+          }}
+        />
+
+        <Image
+          source={Line}
+          style={{
+            resizeMode: 'center',
+            width: '40%',
             marginBottom: 50,
+            marginTop: 20,
             alignSelf: 'center',
           }}
         />
-      </View>
-      <View style={styles.sobreNos}>
-        <Text style={styles.title}>ACOMPANHE-NOS</Text>
-        <FontAwesome
-          name="instagram"
-          size={25}
-          color="#000"
-          style={styles.insta}
-        />
 
-        <View style={styles.creators}>
-          <TouchableOpacity style={{ marginBottom: 20 }}>
-            <Image source={Dodo} style={styles.creatorImage} />
-            <Text
-              style={{
-                color: '#fff',
-                margin: 10,
-                fontFamily: 'Poppins_400Regular',
-              }}
-            >
-              @sccp_hiraishin
-            </Text>
-          </TouchableOpacity>
+        <View style={styles.Collections}>
+          <Text style={styles.title}>COLEÇÕES</Text>
 
-          <TouchableOpacity style={{ marginBottom: 20 }}>
-            <Image source={Logo} style={styles.creatorImage} />
-            <Text
+          <TouchableOpacity style={{ marginTop: 50 }}>
+            <Image
+              source={CollectionBanner}
               style={{
-                color: '#fff',
-                margin: 10,
-                fontFamily: 'Poppins_400Regular',
+                width: width,
+                height: 250,
+                marginBottom: 50,
+                resizeMode: 'cover',
+                alignSelf: 'center',
               }}
-            >
-              @erii.rd
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.creators}>
-          <TouchableOpacity>
-            <Image source={May} style={styles.creatorImage} />
-            <Text
-              style={{
-                color: '#fff',
-                margin: 10,
-                fontFamily: 'Poppins_400Regular',
-              }}
-            >
-              @m4Yxx__
-            </Text>
+            />
           </TouchableOpacity>
 
           <TouchableOpacity>
-            <Image source={Nat} style={styles.creatorImage} />
-            <Text
+            <Image
+              source={CollectionBanner2}
               style={{
-                color: '#fff',
-                margin: 10,
-                fontFamily: 'Poppins_400Regular',
+                width: 250,
+                alignSelf: 'center',
+                resizeMode: 'stretch',
+                height: 250,
+                marginBottom: 50,
               }}
-            >
-              @natizsantos
-            </Text>
+            />
+          </TouchableOpacity>
+
+          <View>
+            <Video
+              source={Campeao}
+              style={styles.video}
+              useNativeControls={false}
+              isLooping
+              shouldPlay={isPlaying}
+            />
+            <View style={styles.videoControls}>
+              <TouchableOpacity
+                style={styles.playPauseButton}
+                onPress={() => setIsPlaying(!isPlaying)}
+              >
+                <Ionicons
+                  name={isPlaying ? 'pause' : 'play'}
+                  size={30}
+                  color="#fff"
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.Collections}>
+          <Text style={styles.title}>PARA VOCÊ</Text>
+          <Image
+            source={Line}
+            style={{
+              resizeMode: 'center',
+              width: '40%',
+              marginBottom: -30,
+              marginTop: 10,
+              alignSelf: 'center',
+            }}
+          />
+
+          <RecommendationCarousel />
+        </View>
+
+        <Text style={styles.title}>@EM ALTA</Text>
+        <View style={styles.trending}>
+          <TouchableOpacity style={styles.trend}>
+            <Text>#2025</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.trend}>
+            <Text>#Spring</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.trend}>
+            <Text>#Collect</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.trend}>
+            <Text>#Fall</Text>
           </TouchableOpacity>
         </View>
-      </View>
-
-      <View>
-        <View style={styles.socialButtons}>
-          <TouchableOpacity style={styles.socialButton}>
-            <FontAwesome
-              name="twitter"
-              size={25}
-              color="#000"
-              style={styles.insta}
-            />
+        <View style={styles.trending2}>
+          <TouchableOpacity style={styles.trend}>
+            <Text>#Dress</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity style={styles.socialButton}>
-            <FontAwesome
-              name="instagram"
-              size={25}
-              color="#000"
-              style={styles.insta}
-            />
+          <TouchableOpacity style={styles.trend}>
+            <Text>#Autumn</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity style={styles.socialButton}>
-            <FontAwesome
-              name="youtube-play"
-              size={25}
-              color="#000"
-              style={styles.insta}
-            />
+          <TouchableOpacity style={styles.trend}>
+            <Text>#Fashion</Text>
           </TouchableOpacity>
         </View>
-        <Image
-          source={Line}
-          style={{
-            resizeMode: 'center',
-            width: '40%',
-            marginBottom: -30,
-            marginTop: -50,
-            alignSelf: 'center',
-          }}
-        />
-      </View>
 
-      <View style={styles.contact}>
-        <Text style={styles.contactText}>green@mart.environment</Text>
-
-        <Text style={styles.contactText}>+55 (11)9 7825 - 7376 </Text>
-
-        <Text style={styles.contactText}>08:00 - 22:00 - De Segunda a Sexta</Text>
-
-        <Image
-          source={Line}
-          style={{
-            resizeMode: 'center',
-            width: '40%',
-            marginBottom: -30,
-            marginTop: -10,
-            alignSelf: 'center',
-          }}
-        />
-      </View>
-
-      <View style={styles.contactButtons}>
-        <TouchableOpacity style={styles.contactButton}>
-          <Text style={styles.contactButtonText}>
-            SOBRE
+        <View style={styles.about}>
+          <Image source={Logo} style={styles.logo2} />
+          <Text
+            style={{
+              textAlign: 'center',
+              fontFamily: 'Poppins_400Regular',
+              padding: 25,
+            }}
+          >
+            Oferecer um estilo de vida sustentável acessível a todas as pessoas
+            é o nosso objetivo..
           </Text>
-        </TouchableOpacity>
+          <Image
+            source={Line}
+            style={{
+              resizeMode: 'center',
+              width: '40%',
+              marginBottom: -30,
+              marginTop: -50,
+              alignSelf: 'center',
+            }}
+          />
+          <Image
+            source={Sobre}
+            style={{
+              resizeMode: 'stretch',
+              width: 300,
+              height: 200,
+              marginTop: 20,
+              alignSelf: 'center',
+            }}
+          />
 
+          <Image
+            source={Leaf}
+            style={{
+              resizeMode: 'stretch',
+              width: 30,
+              height: 40,
+              marginTop: 50,
+              marginBottom: 50,
+              alignSelf: 'center',
+            }}
+          />
+        </View>
+        <View style={styles.sobreNos}>
+          <Text style={styles.title}>ACOMPANHE-NOS</Text>
+          <FontAwesome
+            name="instagram"
+            size={25}
+            color="#000"
+            style={styles.insta}
+          />
 
-        <TouchableOpacity style={styles.contactButton}>
-          <Text style={styles.contactButtonText}>
-            CONTATO
+          <View style={styles.creators}>
+            <TouchableOpacity style={{ marginBottom: 20 }}>
+              <Image source={Dodo} style={styles.creatorImage} />
+              <Text
+                style={{
+                  color: '#fff',
+                  margin: 10,
+                  fontFamily: 'Poppins_400Regular',
+                }}
+              >
+                @sccp_hiraishin
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={{ marginBottom: 20 }}>
+              <Image source={Erika} style={styles.creatorImage} />
+              <Text
+                style={{
+                  color: '#fff',
+                  margin: 10,
+                  fontFamily: 'Poppins_400Regular',
+                }}
+              >
+                @erii.rd
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.creators}>
+            <TouchableOpacity>
+              <Image source={May} style={styles.creatorImage} />
+              <Text
+                style={{
+                  color: '#fff',
+                  margin: 10,
+                  fontFamily: 'Poppins_400Regular',
+                }}
+              >
+                @m4Yxx__
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity>
+              <Image source={Nat} style={styles.creatorImage} />
+              <Text
+                style={{
+                  color: '#fff',
+                  margin: 10,
+                  fontFamily: 'Poppins_400Regular',
+                }}
+              >
+                @natizsantos
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View>
+          <View style={styles.socialButtons}>
+            <TouchableOpacity style={styles.socialButton}>
+              <FontAwesome
+                name="twitter"
+                size={25}
+                color="#000"
+                style={styles.insta}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.socialButton}>
+              <FontAwesome
+                name="instagram"
+                size={25}
+                color="#000"
+                style={styles.insta}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.socialButton}>
+              <FontAwesome
+                name="youtube-play"
+                size={25}
+                color="#000"
+                style={styles.insta}
+              />
+            </TouchableOpacity>
+          </View>
+          <Image
+            source={Line}
+            style={{
+              resizeMode: 'center',
+              width: '40%',
+              marginBottom: -30,
+              marginTop: -50,
+              alignSelf: 'center',
+            }}
+          />
+        </View>
+
+        <View style={styles.contact}>
+          <Text style={styles.contactText}>green@mart.environment</Text>
+
+          <Text style={styles.contactText}>+55 (11)9 7825 - 7376 </Text>
+
+          <Text style={styles.contactText}>
+            08:00 - 22:00 - De Segunda a Sexta
           </Text>
-        </TouchableOpacity>
 
+          <Image
+            source={Line}
+            style={{
+              resizeMode: 'center',
+              width: '40%',
+              marginBottom: -30,
+              marginTop: -10,
+              alignSelf: 'center',
+            }}
+          />
+        </View>
 
-        <TouchableOpacity style={styles.contactButton}>
-          <Text style={styles.contactButtonText}>
-            SITE
-          </Text>
-        </TouchableOpacity>
+        <View style={styles.contactButtons}>
+          <TouchableOpacity style={styles.contactButton}>
+            <Text style={styles.contactButtonText}>SOBRE</Text>
+          </TouchableOpacity>
 
-        
-      </View>
-      <Text style={styles.copyright}>Copyright© GreenMart Todos os direitos reservados.</Text>
+          <TouchableOpacity style={styles.contactButton}>
+            <Text style={styles.contactButtonText}>CONTATO</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.contactButton}>
+            <Text style={styles.contactButtonText}>SITE</Text>
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.copyright}>
+          Copyright© GreenMart Todos os direitos reservados.
+        </Text>
     </ScrollView>
   );
 }
@@ -794,35 +782,33 @@ const styles = StyleSheet.create({
   },
   contact: {
     alignItems: 'center',
-    marginTop: 15
+    marginTop: 15,
   },
   contactText: {
-    marginBottom:0,
-    fontFamily: 'Poppins_400Regular'
+    marginBottom: 0,
+    fontFamily: 'Poppins_400Regular',
   },
   contactButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingInline: 60,
     marginRight: 15,
-    marginTop: 20
+    marginTop: 20,
   },
-  contactButton: {
-
-  },
+  contactButton: {},
   contactButtonText: {
     color: '#238931',
     fontFamily: 'Poppins_400Regular',
-    fontSize: 15
+    fontSize: 15,
   },
   copyright: {
     alignSelf: 'center',
     marginTop: 20,
     paddingInline: 24,
     fontSize: 10,
-    fontFamily: 'Poppins_400Regular'
+    fontFamily: 'Poppins_400Regular',
   },
   categoryButtonActive: {
-    color: '#238931'
-  }
+    color: '#238931',
+  },
 });

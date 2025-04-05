@@ -29,9 +29,18 @@
         "origin": false
       },
       "eas": {
-        "projectId": "e5d82a73-72d1-4a3f-82d8-aba66aa4449c"
+        "projectId": "46728ecf-9e0d-42ac-98ac-241f2c609014"
       }
     },
-    "owner": "dfgsd"
+    "owner": "dfgsd",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/46728ecf-9e0d-42ac-98ac-241f2c609014"
+    },
+    "android": {
+      "permissions": []
+    }
   }
 }
