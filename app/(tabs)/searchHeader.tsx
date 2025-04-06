@@ -16,7 +16,12 @@ import {
   Animated,
   Easing,
 } from 'react-native';
-import { Ionicons, EvilIcons, SimpleLineIcons } from '@expo/vector-icons';
+import {
+  Ionicons,
+  EvilIcons,
+  SimpleLineIcons,
+  AntDesign,
+} from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
 const Logo = require('../../assets/images/Logo-GreenMart.png');
@@ -28,7 +33,10 @@ const SearchHeader = () => {
   const [searchFocused, setSearchFocused] = useState(false);
   const [loading, setLoading] = useState(false);
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
+  const [sidebarVisible, setSidebarVisible] = useState(false);
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const inputRef = useRef<TextInput>(null);
+  const sidebarAnim = useRef(new Animated.Value(-320)).current;
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
@@ -38,18 +46,22 @@ const SearchHeader = () => {
           closeSearch();
           return true;
         }
+        if (sidebarVisible) {
+          closeSidebar();
+          return true;
+        }
         return false;
       }
     );
 
     return () => backHandler.remove();
-  }, [searchFocused]);
+  }, [searchFocused, sidebarVisible]);
 
   const toggleSearch = () => {
     setSearchFocused(true);
     setTimeout(() => {
       inputRef.current?.focus();
-    }, 20000);
+    }, 100);
   };
 
   const closeSearch = () => {
@@ -62,7 +74,6 @@ const SearchHeader = () => {
     if (!searchQuery.trim()) return;
 
     setLoading(true);
-
     setTimeout(() => {
       setLoading(false);
       setSearchHistory((prev) => [
@@ -74,15 +85,57 @@ const SearchHeader = () => {
         pathname: '/searchResults',
         params: { query: searchQuery },
       });
-    }, 2000); 
+    }, 2000);
   };
+
+  const toggleCategory = (category: string) => {
+    setExpandedCategory((prev) => (prev === category ? null : category));
+  };
+
+  const openSidebar = () => {
+    setSidebarVisible(true);
+    Animated.timing(sidebarAnim, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  const closeSidebar = () => {
+    Animated.timing(sidebarAnim, {
+      toValue: -320,
+      duration: 300,
+      useNativeDriver: false,
+    }).start(() => setSidebarVisible(false));
+  };
+
+  const sidebarCategories = [
+    { name: 'Novo', items: ['Camisetas', 'Calças', 'Vestidos'] },
+    {
+      name: 'Roupas',
+      items: [
+        'Vestidos',
+        'Blusas',
+        'Camisas',
+        'Camisetas',
+        'Malhas',
+        'Saias',
+        'Calças',
+        'Jeans',
+        'Infantil',
+      ],
+    },
+    { name: 'Calçados', items: ['Decoração', 'Utensílios', 'Organização'] },
+    { name: 'Bolsas', items: ['Decoração', 'Utensílios', 'Organização'] },
+    { name: 'Acessórios', items: ['Decoração', 'Utensílios', 'Organização'] },
+    { name: 'Favoritos', items: [''] },
+  ];
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
-
       <View style={styles.header}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={openSidebar}>
           <Ionicons name="menu-outline" size={30} color="black" />
         </TouchableOpacity>
 
@@ -92,12 +145,12 @@ const SearchHeader = () => {
           <EvilIcons name="search" size={35} color="black" />
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push('/cart')}>
           <SimpleLineIcons name="handbag" size={24} color="black" />
         </TouchableOpacity>
       </View>
 
-
+      {/* Modal de Busca */}
       <Modal
         visible={searchFocused}
         animationType="fade"
@@ -133,7 +186,7 @@ const SearchHeader = () => {
             style={styles.historyList}
             keyboardShouldPersistTaps="handled"
           >
-            {searchHistory?.map((item, index) => (
+            {searchHistory.map((item, index) => (
               <TouchableOpacity
                 key={index}
                 onPress={() => {
@@ -148,45 +201,141 @@ const SearchHeader = () => {
         </View>
       </Modal>
 
-      {/* Modal de loading */}
+      {/* Modal de Loading */}
       <Modal visible={loading} transparent animationType="fade">
         <View style={styles.loadingOverlay}>
           <RotatingDotsLoader />
         </View>
       </Modal>
+
+      {/* Sidebar com animação */}
+      {sidebarVisible && (
+        <Modal
+          visible={true}
+          transparent
+          animationType="none"
+          onRequestClose={closeSidebar}
+        >
+          <TouchableOpacity
+            style={styles.sidebarOverlay}
+            activeOpacity={1}
+            onPressOut={closeSidebar}
+          >
+            <Animated.View
+              style={[
+                styles.sidebarContainer,
+                { transform: [{ translateX: sidebarAnim }] },
+              ]}
+            >
+              <TouchableOpacity
+                onPress={closeSidebar}
+                style={styles.closeButton}
+              >
+                <Ionicons name="close" size={24} color="#000" />
+              </TouchableOpacity>
+              {sidebarCategories.map((category, index) => (
+                <View key={index}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      if (category.name === 'Favoritos') {
+                        closeSidebar();
+                        router.push('/favorites');
+                      } else {
+                        toggleCategory(category.name);
+                      }
+                    }}
+                    style={styles.categoryButton}
+                  >
+                    <Text style={styles.categoryText}>{category.name}</Text>
+                    {category.name !== 'Favoritos' && (
+                      <AntDesign
+                        name={
+                          expandedCategory === category.name ? 'up' : 'down'
+                        }
+                        size={16}
+                        color="#000"
+                      />
+                    )}
+                  </TouchableOpacity>
+                  {expandedCategory === category.name && (
+                    <View style={styles.subCategoryList}>
+                      {category.items.map((item, idx) => (
+                        <TouchableOpacity
+                          key={idx}
+                          style={styles.subCategoryItem}
+                          onPress={() => {
+                            closeSidebar();
+                            router.push({
+                              pathname: '/searchResults',
+                              params: { query: item },
+                            });
+                          }}
+                        >
+                          <Text style={styles.subCategoryText}>{item}</Text>
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                  )}
+                </View>
+              ))}
+            </Animated.View>
+          </TouchableOpacity>
+        </Modal>
+      )}
     </View>
   );
 };
 
-
 const RotatingDotsLoader = () => {
-    const rotation = useRef(new Animated.Value(0)).current;
-  
-    useEffect(() => {
-      Animated.loop(
-        Animated.timing(rotation, {
-          toValue: 1,
-          duration: 3000,
-          easing: Easing.inOut(Easing.ease),
-          useNativeDriver: true,
-        })
-      ).start();
-    }, []);
-  
-    const rotateInterpolation = rotation.interpolate({
-      inputRange: [0, 1],
-      outputRange: ['0deg', '360deg'],
-    });
-  
+  const rotation = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.timing(rotation, {
+        toValue: 1,
+        duration: 3000,
+        easing: Easing.inOut(Easing.ease),
+        useNativeDriver: true,
+      })
+    ).start();
+  }, []);
+
+  const rotateInterpolation = rotation.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
 
   return (
     <Animated.View
-    style={[styles.loaderContainerSmall, { transform: [{ rotate: rotateInterpolation }] }]}
-  >
-    <View style={[styles.dot, { backgroundColor: '#3DD953', top: 15, left: '50%', marginLeft: -2.5 }]} />
-    <View style={[styles.dot, { backgroundColor: '#FE7ED6', bottom: 5, left: 15 }]} />
-    <View style={[styles.dot, { backgroundColor: '#33F3FF', bottom: 5, right: 5 }]} />
-  </Animated.View>
+      style={[
+        styles.loaderContainerSmall,
+        { transform: [{ rotate: rotateInterpolation }] },
+      ]}
+    >
+      <View
+        style={[
+          styles.dot,
+          {
+            backgroundColor: '#3DD953',
+            top: 15,
+            left: '50%',
+            marginLeft: -2.5,
+          },
+        ]}
+      />
+      <View
+        style={[
+          styles.dot,
+          { backgroundColor: '#FE7ED6', bottom: 5, left: 15 },
+        ]}
+      />
+      <View
+        style={[
+          styles.dot,
+          { backgroundColor: '#33F3FF', bottom: 5, right: 5 },
+        ]}
+      />
+    </Animated.View>
   );
 };
 
@@ -253,9 +402,9 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
   },
-  loaderContainer: {
-    width: 100,
-    height: 100,
+  loaderContainerSmall: {
+    width: 60,
+    height: 60,
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
@@ -266,14 +415,42 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     position: 'absolute',
   },
-  loaderContainerSmall: {
-    width: 60,
-    height: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
+  sidebarOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    flexDirection: 'row',
   },
-  
+  sidebarContainer: {
+    width: 320,
+    backgroundColor: '#fff',
+    padding: 16,
+    height: '100%',
+  },
+  closeButton: {
+    alignSelf: 'flex-start',
+    marginBottom: 10,
+  },
+  categoryButton: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 10,
+  },
+  categoryText: {
+    fontSize: 16,
+    fontFamily: 'Poppins_400Regular',
+  },
+  subCategoryList: {
+    paddingLeft: 12,
+    paddingBottom: 10,
+  },
+  subCategoryItem: {
+    paddingVertical: 6,
+  },
+  subCategoryText: {
+    fontSize: 14,
+    color: '#555',
+    fontFamily: 'Poppins_400Regular',
+  },
 });
 
 export default SearchHeader;
