@@ -23,6 +23,7 @@ import {
   AntDesign,
 } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { products } from '@/data/products';
 
 const Logo = require('../../assets/images/Logo-GreenMart.png');
 const { height } = Dimensions.get('screen');
@@ -72,22 +73,34 @@ const SearchHeader = () => {
 
   const handleSearch = () => {
     if (!searchQuery.trim()) return;
-
+  
     setLoading(true);
+  
     setTimeout(() => {
       setLoading(false);
+  
+      const filteredProducts = products.filter((product) =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.category.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+  
       setSearchHistory((prev) => [
         searchQuery,
         ...prev.filter((q) => q !== searchQuery),
       ]);
+  
       closeSearch();
+  
       router.push({
         pathname: '/searchResults',
-        params: { query: searchQuery },
+        params: {
+          query: searchQuery,
+          results: JSON.stringify(filteredProducts),
+        },
       });
-    }, 2000);
+    }, 1000);
   };
-
+  
   const toggleCategory = (category: string) => {
     setExpandedCategory((prev) => (prev === category ? null : category));
   };
